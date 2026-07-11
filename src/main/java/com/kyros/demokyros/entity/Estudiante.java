@@ -49,7 +49,7 @@ public class Estudiante {
     private Short edad;
 
     @Column(name = "numero_telefonico", nullable = false)
-    private Integer numeroTelefonico;
+    private Long numeroTelefonico;
 
     @Column(name = "escuela_procedencia", nullable = false)
     private String escuelaProcedencia;

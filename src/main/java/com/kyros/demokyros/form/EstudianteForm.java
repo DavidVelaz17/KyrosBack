@@ -36,7 +36,7 @@ public class EstudianteForm {
     private Short edad;
 
     @NotNull(message = "El número telefónico es obligatorio")
-    private Integer numeroTelefonico;
+    private Long numeroTelefonico;
 
     @NotBlank(message = "La escuela de procedencia es obligatoria")
     private String escuelaProcedencia;

@@ -9,6 +9,7 @@ import com.kyros.demokyros.entity.EstudianteBachillerato;
 import com.kyros.demokyros.entity.EstudianteCursoVerano;
 import com.kyros.demokyros.entity.EstudianteSecundaria;
 import com.kyros.demokyros.entity.EstudianteUniversidad;
+import com.kyros.demokyros.entity.EstudianteUniversidadCarrera;
 import com.kyros.demokyros.enums.IngresoA;
 import com.kyros.demokyros.exception.ResourceNotFoundException;
 import com.kyros.demokyros.form.EstudianteForm;
@@ -17,18 +18,35 @@ import com.kyros.demokyros.repository.EstudianteBachilleratoRepository;
 import com.kyros.demokyros.repository.EstudianteCursoVeranoRepository;
 import com.kyros.demokyros.repository.EstudianteRepository;
 import com.kyros.demokyros.repository.EstudianteSecundariaRepository;
+import com.kyros.demokyros.repository.EstudianteUniversidadCarreraRepository;
 import com.kyros.demokyros.repository.EstudianteUniversidadRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class EstudianteService {
+
+    private static final Map<String, String> EXTENSIONES_PERMITIDAS = Map.of(
+            "image/jpeg", ".jpg",
+            "image/png", ".png",
+            "image/webp", ".webp"
+    );
+
+    @Value("${app.uploads.dir:uploads}")
+    private String uploadsDir;
 
     private final EstudianteRepository repository;
     private final GrupoService grupoService;
@@ -37,7 +55,9 @@ public class EstudianteService {
     private final SecundariaService secundariaService;
     private final CursoVeranoService cursoVeranoService;
     private final AsesoriaService asesoriaService;
+    private final CarreraService carreraService;
     private final EstudianteUniversidadRepository estudianteUniversidadRepository;
+    private final EstudianteUniversidadCarreraRepository estudianteUniversidadCarreraRepository;
     private final EstudianteBachilleratoRepository estudianteBachilleratoRepository;
     private final EstudianteSecundariaRepository estudianteSecundariaRepository;
     private final EstudianteCursoVeranoRepository estudianteCursoVeranoRepository;
@@ -126,15 +146,45 @@ public class EstudianteService {
         repository.delete(findEntity(id));
     }
 
+    public EstudianteDto actualizarFoto(Integer id, MultipartFile file) {
+        Estudiante estudiante = findEntity(id);
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("El archivo de la foto es obligatorio");
+        }
+        String extension = EXTENSIONES_PERMITIDAS.get(file.getContentType());
+        if (extension == null) {
+            throw new IllegalArgumentException("La foto debe ser una imagen JPEG, PNG o WEBP");
+        }
+
+        String filename = UUID.randomUUID() + extension;
+        try {
+            Path destino = Path.of(uploadsDir, filename);
+            Files.createDirectories(destino.getParent());
+            file.transferTo(destino);
+        } catch (IOException e) {
+            throw new UncheckedIOException("No se pudo guardar la foto del estudiante", e);
+        }
+
+        estudiante.setFoto("/uploads/" + filename);
+        Estudiante saved = repository.save(estudiante);
+        return toDto(saved, resolveGrupo(saved));
+    }
+
     public List<EstudianteDestinoDto> getDestinos(Integer idEstudiante) {
         Estudiante estudiante = findEntity(idEstudiante);
         return switch (estudiante.getIngresoA()) {
+            // Carrera(s)/área vía estudiante_universidad -> estudiante_universidad_carrera -> carrera -> area:
+            // la(s) carrera(s) que el alumno realmente eligió para esa universidad, no todas las que ofrece.
             case UNIVERSIDAD -> estudianteUniversidadRepository.findByIdEstudiante(idEstudiante).stream()
                     .map(rel -> EstudianteDestinoDto.builder()
                             .idRelacion(rel.getIdEstudianteUniversidad())
                             .idDestino(rel.getIdUniversidad())
                             .nombreDestino(universidadService.findEntity(rel.getIdUniversidad()).getNombreUniversidad())
                             .tipo(IngresoA.UNIVERSIDAD)
+                            .carreras(estudianteUniversidadCarreraRepository
+                                    .findByIdEstudianteUniversidad(rel.getIdEstudianteUniversidad()).stream()
+                                    .map(euc -> carreraService.getCarreraById(euc.getIdCarrera()))
+                                    .toList())
                             .build())
                     .toList();
             case BACHILLERATO -> estudianteBachilleratoRepository.findByIdEstudiante(idEstudiante).stream()
@@ -172,15 +222,26 @@ public class EstudianteService {
         };
     }
 
-    public void addDestino(Integer idEstudiante, Integer idDestino) {
+    public void addDestino(Integer idEstudiante, Integer idDestino, Integer idCarrera) {
         Estudiante estudiante = findEntity(idEstudiante);
         switch (estudiante.getIngresoA()) {
             case UNIVERSIDAD -> {
                 universidadService.findEntity(idDestino);
-                if (estudianteUniversidadRepository.findByIdEstudiante(idEstudiante).stream()
-                        .noneMatch(rel -> rel.getIdUniversidad().equals(idDestino))) {
-                    estudianteUniversidadRepository.save(EstudianteUniversidad.builder()
-                            .idEstudiante(idEstudiante).idUniversidad(idDestino).build());
+                EstudianteUniversidad rel = estudianteUniversidadRepository.findByIdEstudiante(idEstudiante).stream()
+                        .filter(r -> r.getIdUniversidad().equals(idDestino))
+                        .findFirst()
+                        .orElseGet(() -> estudianteUniversidadRepository.save(EstudianteUniversidad.builder()
+                                .idEstudiante(idEstudiante).idUniversidad(idDestino).build()));
+                if (idCarrera != null) {
+                    carreraService.findEntity(idCarrera);
+                    if (estudianteUniversidadCarreraRepository
+                            .findByIdEstudianteUniversidadAndIdCarrera(rel.getIdEstudianteUniversidad(), idCarrera)
+                            .isEmpty()) {
+                        estudianteUniversidadCarreraRepository.save(EstudianteUniversidadCarrera.builder()
+                                .idEstudianteUniversidad(rel.getIdEstudianteUniversidad())
+                                .idCarrera(idCarrera)
+                                .build());
+                    }
                 }
             }
             case BACHILLERATO -> {

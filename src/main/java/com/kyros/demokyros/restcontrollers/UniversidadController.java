@@ -1,7 +1,9 @@
 package com.kyros.demokyros.restcontrollers;
 
+import com.kyros.demokyros.dto.CarreraDto;
 import com.kyros.demokyros.dto.UniversidadDto;
 import com.kyros.demokyros.form.UniversidadForm;
+import com.kyros.demokyros.services.CarreraService;
 import com.kyros.demokyros.services.UniversidadService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +26,16 @@ import java.util.List;
 public class UniversidadController {
 
     private final UniversidadService service;
+    private final CarreraService carreraService;
 
     @GetMapping
     public List<UniversidadDto> getAll() {
         return service.getAllUniversidades();
+    }
+
+    @GetMapping("/{id}/carreras")
+    public List<CarreraDto> getCarreras(@PathVariable Integer id) {
+        return carreraService.getCarrerasDeUniversidad(id);
     }
 
     @GetMapping("/{id}")

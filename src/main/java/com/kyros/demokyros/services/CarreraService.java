@@ -69,6 +69,13 @@ public class CarreraService {
                 .toList();
     }
 
+    public List<CarreraDto> getCarrerasDeUniversidad(Integer idUniversidad) {
+        universidadService.findEntity(idUniversidad);
+        return carreraUniversidadRepository.findByIdUniversidad(idUniversidad).stream()
+                .map(cu -> getCarreraById(cu.getIdCarrera()))
+                .toList();
+    }
+
     public void vincularUniversidad(Integer idCarrera, Integer idUniversidad) {
         findEntity(idCarrera);
         universidadService.findEntity(idUniversidad);

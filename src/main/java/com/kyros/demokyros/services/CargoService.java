@@ -5,6 +5,7 @@ import com.kyros.demokyros.dto.EstudianteDto;
 import com.kyros.demokyros.dto.UsuarioDto;
 import com.kyros.demokyros.entity.Cargo;
 import com.kyros.demokyros.exception.ResourceNotFoundException;
+import com.kyros.demokyros.form.CargoEstatusForm;
 import com.kyros.demokyros.form.CargoForm;
 import com.kyros.demokyros.repository.CargoRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,14 @@ public class CargoService {
                 .idEstudiante(form.getIdEstudiante())
                 .idUsuario(form.getIdUsuario())
                 .build();
+        return getCargoById(repository.save(cargo).getIdCargo());
+    }
+
+    // El resto del cargo (monto, concepto, fechas) es inmutable; solo el estatus puede
+    // transicionar (ej. PENDIENTE -> PAGADO) a medida que se registran pagos sobre él.
+    public CargoDto updateEstatus(Integer id, CargoEstatusForm form) {
+        Cargo cargo = findEntity(id);
+        cargo.setEstatusCargo(form.getEstatusCargo());
         return getCargoById(repository.save(cargo).getIdCargo());
     }
 

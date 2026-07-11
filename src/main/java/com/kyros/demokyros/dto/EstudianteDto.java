@@ -23,7 +23,7 @@ public class EstudianteDto {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private Short edad;
-    private Integer numeroTelefonico;
+    private Long numeroTelefonico;
     private String escuelaProcedencia;
     private String gradoEscolar;
     private String nombreTutor;

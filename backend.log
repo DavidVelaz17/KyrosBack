@@ -1,0 +1,198 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.kyros:demokyros >-------------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.1.0:run (default-cli) > test-compile @ demokyros >>>
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ demokyros ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 4 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ demokyros ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ demokyros ---
+[INFO] skip non existing resourceDirectory /Users/davidlara/Documents/KyrosSystem/Back/demokyros/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ demokyros ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:4.1.0:run (default-cli) < test-compile @ demokyros <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.1.0:run (default-cli) @ demokyros ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.0)
+
+2026-07-09T19:23:59.763-06:00  INFO 20967 --- [demokyros] [           main] c.kyros.demokyros.DemokyrosApplication   : Starting DemokyrosApplication using Java 25 with PID 20967 (/Users/davidlara/Documents/KyrosSystem/Back/demokyros/target/classes started by davidlara in /Users/davidlara/Documents/KyrosSystem/Back/demokyros)
+2026-07-09T19:23:59.764-06:00  INFO 20967 --- [demokyros] [           main] c.kyros.demokyros.DemokyrosApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-07-09T19:23:59.968-06:00  INFO 20967 --- [demokyros] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-09T19:23:59.993-06:00  INFO 20967 --- [demokyros] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 21 JPA repository interfaces.
+2026-07-09T19:24:00.146-06:00  INFO 20967 --- [demokyros] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-07-09T19:24:00.151-06:00  INFO 20967 --- [demokyros] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-09T19:24:00.152-06:00  INFO 20967 --- [demokyros] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-07-09T19:24:00.168-06:00  INFO 20967 --- [demokyros] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 391 ms
+2026-07-09T19:24:00.251-06:00  INFO 20967 --- [demokyros] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-09T19:24:00.317-06:00  INFO 20967 --- [demokyros] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@231b35fb
+2026-07-09T19:24:00.318-06:00  INFO 20967 --- [demokyros] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-09T19:24:00.327-06:00  INFO 20967 --- [demokyros] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:mysql://localhost:3306/demokyros?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC (MySQL 8.0)
+2026-07-09T19:24:00.351-06:00  INFO 20967 --- [demokyros] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table `demokyros`.`flyway_schema_history` does not exist yet
+2026-07-09T19:24:00.352-06:00  INFO 20967 --- [demokyros] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 4 migrations (execution time 00:00.007s)
+2026-07-09T19:24:00.358-06:00  INFO 20967 --- [demokyros] [           main] org.flywaydb.core.Flyway                 : All configured schemas are empty; a baseline marker will not be added to Flyway's schema history table. A baseline or migration script with a lower version than the baseline version may execute if available. Check the Schemas parameter if this is not intended. See https://help.red-gate.com/help/flyway-cli12/help_4.aspx?topic=baseline-on-migrate for more info
+2026-07-09T19:24:00.360-06:00  INFO 20967 --- [demokyros] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table `demokyros`.`flyway_schema_history` ...
+2026-07-09T19:24:00.385-06:00  INFO 20967 --- [demokyros] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema `demokyros`: << Empty Schema >>
+2026-07-09T19:24:00.388-06:00  INFO 20967 --- [demokyros] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `demokyros` to version "1 - create estudiante grupo"
+2026-07-09T19:24:00.445-06:00  INFO 20967 --- [demokyros] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `demokyros` to version "2 - create universidad carrera area"
+2026-07-09T19:24:00.476-06:00  INFO 20967 --- [demokyros] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `demokyros` to version "3 - create catalogos educativos"
+2026-07-09T19:24:00.551-06:00  INFO 20967 --- [demokyros] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `demokyros` to version "4 - create usuario cargo pago log"
+2026-07-09T19:24:00.582-06:00  INFO 20967 --- [demokyros] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 4 migrations to schema `demokyros`, now at version v4 (execution time 00:00.157s)
+2026-07-09T19:24:00.632-06:00  INFO 20967 --- [demokyros] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-09T19:24:00.656-06:00  INFO 20967 --- [demokyros] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-07-09T19:24:00.782-06:00  INFO 20967 --- [demokyros] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-09T19:24:00.808-06:00  WARN 20967 --- [demokyros] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-09T19:24:00.812-06:00  INFO 20967 --- [demokyros] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/demokyros?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.46
+	Default catalog/schema: demokyros/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-09T19:24:01.210-06:00  INFO 20967 --- [demokyros] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-09T19:24:01.230-06:00  INFO 20967 --- [demokyros] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-09T19:24:01.262-06:00  INFO 20967 --- [demokyros] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-09T19:24:01.396-06:00  WARN 20967 --- [demokyros] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-09T19:24:01.424-06:00  WARN 20967 --- [demokyros] [           main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 423d84c5-786b-4bf8-a80b-5aa490b17f96
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-07-09T19:24:01.426-06:00  INFO 20967 --- [demokyros] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-07-09T19:24:01.574-06:00  INFO 20967 --- [demokyros] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-07-09T19:24:01.576-06:00  INFO 20967 --- [demokyros] [           main] c.kyros.demokyros.DemokyrosApplication   : Started DemokyrosApplication in 1.929 seconds (process running for 2.034)
+2026-07-09T19:24:31.239-06:00  INFO 20967 --- [demokyros] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-09T19:24:31.239-06:00  INFO 20967 --- [demokyros] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-09T19:24:31.240-06:00  INFO 20967 --- [demokyros] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-07-09T19:42:14.282-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12m13s805ms).
+2026-07-09T20:14:29.997-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m45s480ms).
+2026-07-09T20:26:54.209-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12m24s212ms).
+2026-07-09T20:29:31.327-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m37s117ms).
+2026-07-09T20:34:02.701-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m31s375ms).
+2026-07-09T20:50:28.467-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s759ms).
+2026-07-09T21:06:23.462-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m54s995ms).
+2026-07-09T21:22:49.239-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s781ms).
+2026-07-09T21:39:09.810-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m20s572ms).
+2026-07-09T22:01:39.096-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=21m59s313ms).
+2026-07-09T23:02:32.650-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h53s554ms).
+2026-07-10T00:03:32.720-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h30s70ms).
+2026-07-10T01:04:32.883-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h30s134ms).
+2026-07-10T02:43:55.363-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h38m52s467ms).
+2026-07-10T04:23:40.476-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h39m45s113ms).
+2026-07-10T04:39:36.257-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s781ms).
+2026-07-10T04:56:26.906-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m20s634ms).
+2026-07-10T05:15:09.156-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=18m12s235ms).
+2026-07-10T05:31:59.786-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m20s653ms).
+2026-07-10T05:32:54.638-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s852ms).
+2026-07-10T05:48:49.575-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m54s937ms).
+2026-07-10T06:04:45.274-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s699ms).
+2026-07-10T06:20:41.075-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s801ms).
+2026-07-10T06:36:27.834-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m46s759ms).
+2026-07-10T06:37:47.468-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m19s634ms).
+2026-07-10T06:53:43.250-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s782ms).
+2026-07-10T07:01:04.459-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6m51s198ms).
+2026-07-10T07:02:24.215-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m19s756ms).
+2026-07-10T07:18:50.016-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s793ms).
+2026-07-10T07:34:45.734-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s718ms).
+2026-07-10T07:51:11.560-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s793ms).
+2026-07-10T08:01:40.592-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m29s32ms).
+2026-07-10T08:17:36.356-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s764ms).
+2026-07-10T08:18:31.251-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s895ms).
+2026-07-10T08:34:26.883-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s632ms).
+2026-07-10T08:50:22.523-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s640ms).
+2026-07-10T09:02:24.681-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12m2s157ms).
+2026-07-10T09:03:19.567-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s887ms).
+2026-07-10T09:19:15.327-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s759ms).
+2026-07-10T09:35:11.058-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s732ms).
+2026-07-10T09:36:05.948-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s890ms).
+2026-07-10T09:52:31.663-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s703ms).
+2026-07-10T10:03:34.810-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=11m3s147ms).
+2026-07-10T10:19:30.562-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s752ms).
+2026-07-10T10:36:41.161-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m10s598ms).
+2026-07-10T10:53:20.107-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m38s947ms).
+2026-07-10T10:54:14.978-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s871ms).
+2026-07-10T11:04:24.150-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m9s172ms).
+2026-07-10T11:21:11.103-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m16s950ms).
+2026-07-10T11:37:36.823-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s724ms).
+2026-07-10T11:38:31.693-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s870ms).
+2026-07-10T11:54:08.043-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m36s350ms).
+2026-07-10T11:55:27.793-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m19s750ms).
+2026-07-10T12:05:29.415-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m1s622ms).
+2026-07-10T12:21:55.206-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s783ms).
+2026-07-10T12:22:50.112-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s906ms).
+2026-07-10T12:38:45.861-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s749ms).
+2026-07-10T12:53:01.204-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m45s333ms).
+2026-07-10T13:07:09.691-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m8s487ms).
+2026-07-10T13:24:00.290-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m20s599ms).
+2026-07-10T13:40:25.995-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s702ms).
+2026-07-10T13:56:21.036-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s41ms).
+2026-07-10T14:07:41.773-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m50s726ms).
+2026-07-10T14:23:37.552-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s780ms).
+2026-07-10T14:39:33.261-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s709ms).
+2026-07-10T14:55:29.035-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s774ms).
+2026-07-10T15:08:36.841-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12m37s803ms).
+2026-07-10T15:25:02.565-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s714ms).
+2026-07-10T15:41:16.692-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m14s127ms).
+2026-07-10T15:49:36.683-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m49s964ms).
+2026-07-10T16:02:40.879-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m4s196ms).
+2026-07-10T16:07:54.706-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m43s919ms).
+2026-07-10T17:47:46.906-06:00  WARN 20967 --- [demokyros] [nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (5512345678) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T17:48:36.567-06:00  WARN 20967 --- [demokyros] [nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (5512345678) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T17:49:04.831-06:00  WARN 20967 --- [demokyros] [nio-8080-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (5512345678) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T17:50:14.193-06:00  WARN 20967 --- [demokyros] [nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (5512345678) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T17:50:14.206-06:00  WARN 20967 --- [demokyros] [nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (5512345678) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T17:50:14.218-06:00  WARN 20967 --- [demokyros] [io-8080-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (5512345678) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T17:50:14.230-06:00  WARN 20967 --- [demokyros] [nio-8080-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (5512345678) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T17:50:29.309-06:00  WARN 20967 --- [demokyros] [nio-8080-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (5512345678) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T17:50:56.364-06:00  WARN 20967 --- [demokyros] [nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (5512345678) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T17:50:56.388-06:00  WARN 20967 --- [demokyros] [nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Numeric value (2147483648) out of range of `int` (-2147483648 - 2147483647)]
+2026-07-10T20:11:54.581-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m27s892ms).
+2026-07-10T20:19:22.846-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m28s265ms).
+2026-07-10T20:52:05.395-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=32m42s549ms).
+2026-07-10T20:53:49.982-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m44s587ms).
+2026-07-10T21:05:53.036-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12m3s54ms).
+2026-07-10T21:22:43.788-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m50s752ms).
+2026-07-10T21:24:53.281-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m9s493ms).
+2026-07-10T21:41:28.508-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m35s227ms).
+2026-07-10T21:43:38.019-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m9s511ms).
+2026-07-10T22:02:44.370-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=19m6s351ms).
+2026-07-10T22:19:33.772-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m49s402ms).
+2026-07-10T22:21:43.171-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m9s399ms).
+2026-07-10T22:41:07.837-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=19m24s666ms).
+2026-07-10T22:58:18.089-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m10s252ms).
+2026-07-10T23:02:44.890-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m26s801ms).
+2026-07-10T23:20:14.968-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m30s77ms).
+2026-07-10T23:36:52.461-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m37s494ms).
+2026-07-10T23:39:01.861-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m9s400ms).
+2026-07-10T23:56:15.996-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m14s135ms).
+2026-07-10T23:58:25.390-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m9s394ms).
+2026-07-11T00:20:37.423-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=22m12s32ms).
+2026-07-11T00:22:21.976-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m44s554ms).
+2026-07-11T00:41:15.584-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=18m53s608ms).
+2026-07-11T00:43:24.981-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m9s397ms).
+2026-07-11T00:56:42.619-06:00  WARN 20967 --- [demokyros] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m17s638ms).

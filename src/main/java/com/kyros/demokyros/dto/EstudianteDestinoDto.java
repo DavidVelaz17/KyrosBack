@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,4 +20,6 @@ public class EstudianteDestinoDto {
     private Integer idDestino;
     private String nombreDestino;
     private IngresoA tipo;
+    /** Sólo aplica para tipo UNIVERSIDAD: carreras que ofrece esa universidad (vía carrera_universidad), con su área. */
+    private List<CarreraDto> carreras;
 }
