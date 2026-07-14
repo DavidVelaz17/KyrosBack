@@ -2,6 +2,7 @@ package com.kyros.demokyros.restcontrollers;
 
 import com.kyros.demokyros.dto.EstudianteDestinoDto;
 import com.kyros.demokyros.dto.EstudianteDto;
+import com.kyros.demokyros.form.EstudianteEstatusForm;
 import com.kyros.demokyros.form.EstudianteForm;
 import com.kyros.demokyros.services.EstudianteService;
 import jakarta.validation.Valid;
@@ -54,6 +55,11 @@ public class EstudianteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
         service.deleteEstudiante(id);
+    }
+
+    @PutMapping("/{id}/estatus")
+    public EstudianteDto updateEstatus(@PathVariable Integer id, @Valid @RequestBody EstudianteEstatusForm form) {
+        return service.updateEstatus(id, form);
     }
 
     @PostMapping(path = "/{id}/foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

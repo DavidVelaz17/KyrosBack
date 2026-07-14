@@ -3,6 +3,7 @@ package com.kyros.demokyros.restcontrollers;
 import com.kyros.demokyros.dto.UsuarioDto;
 import com.kyros.demokyros.form.ResetPasswordForm;
 import com.kyros.demokyros.form.UsuarioForm;
+import com.kyros.demokyros.form.UsuarioUpdateForm;
 import com.kyros.demokyros.services.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public UsuarioDto update(@PathVariable Integer id, @Valid @RequestBody UsuarioForm form) {
+    public UsuarioDto update(@PathVariable Integer id, @Valid @RequestBody UsuarioUpdateForm form) {
         return service.updateUsuario(id, form);
     }
 

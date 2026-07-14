@@ -10,9 +10,12 @@ import com.kyros.demokyros.entity.EstudianteCursoVerano;
 import com.kyros.demokyros.entity.EstudianteSecundaria;
 import com.kyros.demokyros.entity.EstudianteUniversidad;
 import com.kyros.demokyros.entity.EstudianteUniversidadCarrera;
+import com.kyros.demokyros.enums.EstatusEstudiante;
 import com.kyros.demokyros.enums.IngresoA;
 import com.kyros.demokyros.exception.ResourceNotFoundException;
+import com.kyros.demokyros.form.EstudianteEstatusForm;
 import com.kyros.demokyros.form.EstudianteForm;
+import com.kyros.demokyros.repository.AsesoriaMateriaRepository;
 import com.kyros.demokyros.repository.EstudianteAsesoriaRepository;
 import com.kyros.demokyros.repository.EstudianteBachilleratoRepository;
 import com.kyros.demokyros.repository.EstudianteCursoVeranoRepository;
@@ -56,6 +59,8 @@ public class EstudianteService {
     private final CursoVeranoService cursoVeranoService;
     private final AsesoriaService asesoriaService;
     private final CarreraService carreraService;
+    private final MateriaService materiaService;
+    private final AsesoriaMateriaRepository asesoriaMateriaRepository;
     private final EstudianteUniversidadRepository estudianteUniversidadRepository;
     private final EstudianteUniversidadCarreraRepository estudianteUniversidadCarreraRepository;
     private final EstudianteBachilleratoRepository estudianteBachilleratoRepository;
@@ -110,6 +115,7 @@ public class EstudianteService {
                 .horario(form.getHorario())
                 .ingresoA(form.getIngresoA())
                 .idGrupo(form.getIdGrupo())
+                .estatus(EstatusEstudiante.ACTIVO)
                 .build();
         Estudiante saved = repository.save(estudiante);
         return toDto(saved, resolveGrupo(saved));
@@ -144,6 +150,15 @@ public class EstudianteService {
 
     public void deleteEstudiante(Integer id) {
         repository.delete(findEntity(id));
+    }
+
+    /** El resto del alumno es editable vía updateEstudiante; el estatus (Activo/Baja) se
+     *  cambia aparte, típicamente al "dar de baja" en vez de borrar al alumno. */
+    public EstudianteDto updateEstatus(Integer id, EstudianteEstatusForm form) {
+        Estudiante estudiante = findEntity(id);
+        estudiante.setEstatus(form.getEstatus());
+        Estudiante saved = repository.save(estudiante);
+        return toDto(saved, resolveGrupo(saved));
     }
 
     public EstudianteDto actualizarFoto(Integer id, MultipartFile file) {
@@ -212,12 +227,20 @@ public class EstudianteService {
                             .build())
                     .toList();
             case ASESORIAS -> estudianteAsesoriaRepository.findByIdEstudiante(idEstudiante).stream()
-                    .map(rel -> EstudianteDestinoDto.builder()
-                            .idRelacion(rel.getIdEstudianteAsesoria())
-                            .idDestino(rel.getIdAsesoria())
-                            .nombreDestino(describeAsesoria(rel.getIdAsesoria()))
-                            .tipo(IngresoA.ASESORIAS)
-                            .build())
+                    .map(rel -> {
+                        var asesoria = asesoriaService.findEntity(rel.getIdAsesoria());
+                        return EstudianteDestinoDto.builder()
+                                .idRelacion(rel.getIdEstudianteAsesoria())
+                                .idDestino(rel.getIdAsesoria())
+                                .nombreDestino(describeAsesoria(rel.getIdAsesoria()))
+                                .tipo(IngresoA.ASESORIAS)
+                                .dia(asesoria.getDiaAsesoria())
+                                .hora(asesoria.getHoraAsesoria())
+                                .materias(asesoriaMateriaRepository.findByIdAsesoria(rel.getIdAsesoria()).stream()
+                                        .map(am -> materiaService.getMateriaById(am.getIdMateria()))
+                                        .toList())
+                                .build();
+                    })
                     .toList();
         };
     }
@@ -347,6 +370,7 @@ public class EstudianteService {
                 .horario(estudiante.getHorario())
                 .ingresoA(estudiante.getIngresoA())
                 .grupo(grupoDto)
+                .estatus(estudiante.getEstatus())
                 .build();
     }
 }

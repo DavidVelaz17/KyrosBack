@@ -43,4 +43,11 @@ public class Pago {
 
     @Column(name = "id_cargo", nullable = false)
     private Integer idCargo;
+
+    // Nullable: los pagos creados antes de que se agregara este campo no tienen quién los registró.
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
+
+    @Column(name = "requiere_factura", nullable = false)
+    private Boolean requiereFactura;
 }

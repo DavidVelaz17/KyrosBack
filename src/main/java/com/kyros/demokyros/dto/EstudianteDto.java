@@ -1,5 +1,6 @@
 package com.kyros.demokyros.dto;
 
+import com.kyros.demokyros.enums.EstatusEstudiante;
 import com.kyros.demokyros.enums.Horario;
 import com.kyros.demokyros.enums.IngresoA;
 import lombok.AllArgsConstructor;
@@ -35,4 +36,5 @@ public class EstudianteDto {
     private Horario horario;
     private IngresoA ingresoA;
     private GrupoDto grupo;
+    private EstatusEstudiante estatus;
 }

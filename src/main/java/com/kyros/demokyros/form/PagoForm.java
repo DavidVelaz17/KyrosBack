@@ -30,4 +30,10 @@ public class PagoForm {
 
     @NotNull(message = "El cargo es obligatorio")
     private Integer idCargo;
+
+    @NotNull(message = "El usuario es obligatorio")
+    private Integer idUsuario;
+
+    @NotNull(message = "Indica si el pago requiere factura")
+    private Boolean requiereFactura;
 }

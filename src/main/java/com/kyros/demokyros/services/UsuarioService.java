@@ -5,6 +5,7 @@ import com.kyros.demokyros.entity.Usuario;
 import com.kyros.demokyros.exception.ResourceNotFoundException;
 import com.kyros.demokyros.form.ResetPasswordForm;
 import com.kyros.demokyros.form.UsuarioForm;
+import com.kyros.demokyros.form.UsuarioUpdateForm;
 import com.kyros.demokyros.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +40,7 @@ public class UsuarioService {
         return toDto(repository.save(usuario));
     }
 
-    public UsuarioDto updateUsuario(Integer id, UsuarioForm form) {
+    public UsuarioDto updateUsuario(Integer id, UsuarioUpdateForm form) {
         Usuario usuario = findEntity(id);
         ensureUsuarioDisponible(form.getUsuario(), id);
         usuario.setNombreUsuario(form.getNombreUsuario());

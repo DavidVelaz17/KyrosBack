@@ -1,7 +1,9 @@
 package com.kyros.demokyros.entity;
 
+import com.kyros.demokyros.convertors.EstatusEstudianteConverter;
 import com.kyros.demokyros.convertors.HorarioConverter;
 import com.kyros.demokyros.convertors.IngresoAConverter;
+import com.kyros.demokyros.enums.EstatusEstudiante;
 import com.kyros.demokyros.enums.Horario;
 import com.kyros.demokyros.enums.IngresoA;
 import jakarta.persistence.Column;
@@ -85,4 +87,8 @@ public class Estudiante {
 
     @Column(name = "id_grupo")
     private Integer idGrupo;
+
+    @Convert(converter = EstatusEstudianteConverter.class)
+    @Column(name = "estatus", nullable = false, columnDefinition = "smallint")
+    private EstatusEstudiante estatus;
 }

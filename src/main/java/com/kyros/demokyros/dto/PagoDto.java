@@ -21,4 +21,7 @@ public class PagoDto {
     private LocalDate fechaPago;
     private MetodoPago metodoPago;
     private CargoDto cargo;
+    /** Quién registró este pago. Null en pagos creados antes de que se agregara este campo. */
+    private UsuarioDto usuario;
+    private Boolean requiereFactura;
 }
