@@ -1,0 +1,2 @@
+ALTER TABLE pago
+    ADD COLUMN requiere_factura BOOLEAN NOT NULL DEFAULT FALSE;

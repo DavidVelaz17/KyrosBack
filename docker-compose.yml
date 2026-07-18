@@ -1,0 +1,17 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: demokyros-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-demokyros}
+      MYSQL_USER: ${DB_USERNAME:-demokyros}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-demokyros}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - demokyros-mysql-data:/var/lib/mysql
+
+volumes:
+  demokyros-mysql-data:
