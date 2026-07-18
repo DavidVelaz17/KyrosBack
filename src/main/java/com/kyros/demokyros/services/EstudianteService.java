@@ -24,6 +24,7 @@ import com.kyros.demokyros.repository.EstudianteSecundariaRepository;
 import com.kyros.demokyros.repository.EstudianteUniversidadCarreraRepository;
 import com.kyros.demokyros.repository.EstudianteUniversidadRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +41,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EstudianteService {
 
     private static final Map<String, String> EXTENSIONES_PERMITIDAS = Map.of(
@@ -149,7 +151,9 @@ public class EstudianteService {
     }
 
     public void deleteEstudiante(Integer id) {
-        repository.delete(findEntity(id));
+        Estudiante estudiante = findEntity(id);
+        repository.delete(estudiante);
+        eliminarArchivoFoto(id, estudiante.getFoto());
     }
 
     /** El resto del alumno es editable vía updateEstudiante; el estatus (Activo/Baja) se
@@ -171,6 +175,8 @@ public class EstudianteService {
             throw new IllegalArgumentException("La foto debe ser una imagen JPEG, PNG o WEBP");
         }
 
+        String fotoAnterior = estudiante.getFoto();
+
         String filename = UUID.randomUUID() + extension;
         try {
             Path destino = Path.of(uploadsDir, filename);
@@ -182,7 +188,29 @@ public class EstudianteService {
 
         estudiante.setFoto("/uploads/" + filename);
         Estudiante saved = repository.save(estudiante);
+
+        // Se borra hasta el final, ya con la nueva foto guardada y confirmada en la BD: si algo
+        // fallara antes de este punto, el alumno se queda con su foto anterior en vez de sin
+        // ninguna. Si el borrado en sí falla (ej. permisos), no se interrumpe la respuesta por
+        // un archivo huérfano: ya se completó lo que de verdad le importa al usuario.
+        eliminarArchivoFoto(id, fotoAnterior);
+
         return toDto(saved, resolveGrupo(saved));
+    }
+
+    /** Borra el archivo de una foto previamente asignada a un alumno (ej. al reemplazarla o al
+     *  eliminar al alumno), a partir del path guardado en BD ("/uploads/xxx.ext"). No falla la
+     *  operación que la llama si el borrado no se pudo completar; solo lo registra. */
+    private void eliminarArchivoFoto(Integer idEstudiante, String foto) {
+        if (foto == null || foto.isBlank()) {
+            return;
+        }
+        String filename = foto.substring(foto.lastIndexOf('/') + 1);
+        try {
+            Files.deleteIfExists(Path.of(uploadsDir, filename));
+        } catch (IOException e) {
+            log.warn("No se pudo borrar el archivo de foto anterior '{}' del alumno {}", filename, idEstudiante, e);
+        }
     }
 
     public List<EstudianteDestinoDto> getDestinos(Integer idEstudiante) {
