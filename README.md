@@ -1,6 +1,6 @@
-# KyrosBack
+# KayrosBack
 
-API REST del sistema **Kyros**, construida con Spring Boot, para la gestión administrativa y académica de una institución educativa: estudiantes, grupos, asesorías, cursos de verano, catálogos de universidades/carreras/bachilleratos/secundarias, usuarios, cargos, pagos y bitácora (logs).
+API REST del sistema **Kayros**, construida con Spring Boot, para la gestión administrativa y académica de una institución educativa: estudiantes, grupos, asesorías, cursos de verano, catálogos de universidades/carreras/bachilleratos/secundarias, usuarios, cargos, pagos y bitácora (logs).
 
 ## Tecnologías
 
