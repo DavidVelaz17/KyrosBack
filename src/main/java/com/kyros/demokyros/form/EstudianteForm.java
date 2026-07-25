@@ -31,14 +31,11 @@ public class EstudianteForm {
     @NotBlank(message = "El apellido materno es obligatorio")
     private String apellidoMaterno;
 
-    @NotNull(message = "La edad es obligatoria")
     @Positive(message = "La edad debe ser un valor positivo")
     private Short edad;
 
-    @NotNull(message = "El número telefónico es obligatorio")
     private Long numeroTelefonico;
 
-    @NotBlank(message = "La escuela de procedencia es obligatoria")
     private String escuelaProcedencia;
 
     @NotBlank(message = "El grado escolar es obligatorio")

@@ -36,4 +36,6 @@ public class PagoForm {
 
     @NotNull(message = "Indica si el pago requiere factura")
     private Boolean requiereFactura;
+
+    private String conceptoPago;
 }

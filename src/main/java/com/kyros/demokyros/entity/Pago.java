@@ -50,4 +50,8 @@ public class Pago {
 
     @Column(name = "requiere_factura", nullable = false)
     private Boolean requiereFactura;
+
+    // Concepto propio del pago (p.ej. "Abono a inscripción"); si es null, el recibo usa el concepto del cargo.
+    @Column(name = "concepto_pago")
+    private String conceptoPago;
 }

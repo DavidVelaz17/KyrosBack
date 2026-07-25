@@ -47,13 +47,13 @@ public class Estudiante {
     @Column(name = "apellido_materno", nullable = false)
     private String apellidoMaterno;
 
-    @Column(name = "edad", nullable = false)
+    @Column(name = "edad")
     private Short edad;
 
-    @Column(name = "numero_telefonico", nullable = false)
+    @Column(name = "numero_telefonico")
     private Long numeroTelefonico;
 
-    @Column(name = "escuela_procedencia", nullable = false)
+    @Column(name = "escuela_procedencia")
     private String escuelaProcedencia;
 
     @Column(name = "grado_escolar", nullable = false)
