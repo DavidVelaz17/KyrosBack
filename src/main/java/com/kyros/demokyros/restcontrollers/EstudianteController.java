@@ -2,13 +2,18 @@ package com.kyros.demokyros.restcontrollers;
 
 import com.kyros.demokyros.dto.EstudianteDestinoDto;
 import com.kyros.demokyros.dto.EstudianteDto;
+import com.kyros.demokyros.dto.ImportEstudiantesResultDto;
 import com.kyros.demokyros.form.EstudianteEstatusForm;
 import com.kyros.demokyros.form.EstudianteForm;
+import com.kyros.demokyros.services.EstudianteImportExportService;
 import com.kyros.demokyros.services.EstudianteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +33,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EstudianteController {
 
+    private static final MediaType XLSX_MEDIA_TYPE =
+            MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
     private final EstudianteService service;
+    private final EstudianteImportExportService importExportService;
 
     @GetMapping
     public List<EstudianteDto> getAll() {
@@ -88,5 +97,29 @@ public class EstudianteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeDestino(@PathVariable Integer id, @PathVariable Integer idDestino) {
         service.removeDestino(id, idDestino);
+    }
+
+    // Alta masiva desde un Excel; una fila inválida no aborta el lote, se reporta como error.
+    @PostMapping(path = "/importar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ImportEstudiantesResultDto importar(@RequestParam("file") MultipartFile file) {
+        return importExportService.importarEstudiantes(file);
+    }
+
+    @GetMapping("/exportar")
+    public ResponseEntity<byte[]> exportar() {
+        return archivoExcel(importExportService.exportarEstudiantes(), "alumnos.xlsx");
+    }
+
+    @GetMapping("/plantilla")
+    public ResponseEntity<byte[]> plantilla() {
+        return archivoExcel(importExportService.plantillaEstudiantes(), "plantilla-alumnos.xlsx");
+    }
+
+    private ResponseEntity<byte[]> archivoExcel(byte[] contenido, String filename) {
+        return ResponseEntity.ok()
+                .contentType(XLSX_MEDIA_TYPE)
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        ContentDisposition.attachment().filename(filename).build().toString())
+                .body(contenido);
     }
 }

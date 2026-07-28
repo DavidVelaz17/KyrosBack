@@ -215,6 +215,9 @@ public class EstudianteService {
 
     public List<EstudianteDestinoDto> getDestinos(Integer idEstudiante) {
         Estudiante estudiante = findEntity(idEstudiante);
+        if (estudiante.getIngresoA() == null) {
+            return List.of();
+        }
         return switch (estudiante.getIngresoA()) {
             // Carrera(s)/área vía estudiante_universidad -> estudiante_universidad_carrera -> carrera -> area:
             // la(s) carrera(s) que el alumno realmente eligió para esa universidad, no todas las que ofrece.
@@ -275,6 +278,9 @@ public class EstudianteService {
 
     public void addDestino(Integer idEstudiante, Integer idDestino, Integer idCarrera) {
         Estudiante estudiante = findEntity(idEstudiante);
+        if (estudiante.getIngresoA() == null) {
+            throw new IllegalArgumentException("El alumno no tiene un valor de ingresoA asignado");
+        }
         switch (estudiante.getIngresoA()) {
             case UNIVERSIDAD -> {
                 universidadService.findEntity(idDestino);
@@ -332,6 +338,9 @@ public class EstudianteService {
 
     public void removeDestino(Integer idEstudiante, Integer idDestino) {
         Estudiante estudiante = findEntity(idEstudiante);
+        if (estudiante.getIngresoA() == null) {
+            return;
+        }
         switch (estudiante.getIngresoA()) {
             case UNIVERSIDAD -> estudianteUniversidadRepository.findByIdEstudiante(idEstudiante).stream()
                     .filter(rel -> rel.getIdUniversidad().equals(idDestino))

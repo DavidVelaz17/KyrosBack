@@ -24,4 +24,6 @@ public class PagoDto {
     /** Quién registró este pago. Null en pagos creados antes de que se agregara este campo. */
     private UsuarioDto usuario;
     private Boolean requiereFactura;
+    private String conceptoPago;
+    private String notasPago;
 }
