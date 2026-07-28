@@ -38,4 +38,6 @@ public class PagoForm {
     private Boolean requiereFactura;
 
     private String conceptoPago;
+
+    private String notasPago;
 }

@@ -56,7 +56,7 @@ public class Estudiante {
     @Column(name = "escuela_procedencia")
     private String escuelaProcedencia;
 
-    @Column(name = "grado_escolar", nullable = false)
+    @Column(name = "grado_escolar")
     private String gradoEscolar;
 
     @Column(name = "nombre_tutor")
@@ -65,7 +65,7 @@ public class Estudiante {
     @Column(name = "telefono_tutor")
     private String telefonoTutor;
 
-    @Column(name = "direccion", nullable = false)
+    @Column(name = "direccion")
     private String direccion;
 
     @Column(name = "foto")
@@ -74,15 +74,15 @@ public class Estudiante {
     @Column(name = "notas")
     private String notas;
 
-    @Column(name = "fecha_inscripcion", nullable = false)
+    @Column(name = "fecha_inscripcion")
     private LocalDate fechaInscripcion;
 
     @Convert(converter = HorarioConverter.class)
-    @Column(name = "horario", nullable = false, columnDefinition = "smallint")
+    @Column(name = "horario", columnDefinition = "smallint")
     private Horario horario;
 
     @Convert(converter = IngresoAConverter.class)
-    @Column(name = "ingreso_a", nullable = false, columnDefinition = "smallint")
+    @Column(name = "ingreso_a", columnDefinition = "smallint")
     private IngresoA ingresoA;
 
     @Column(name = "id_grupo")

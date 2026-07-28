@@ -25,4 +25,5 @@ public class PagoDto {
     private UsuarioDto usuario;
     private Boolean requiereFactura;
     private String conceptoPago;
+    private String notasPago;
 }

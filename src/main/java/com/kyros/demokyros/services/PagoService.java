@@ -48,6 +48,7 @@ public class PagoService {
                 .idUsuario(form.getIdUsuario())
                 .requiereFactura(form.getRequiereFactura())
                 .conceptoPago(form.getConceptoPago())
+                .notasPago(form.getNotasPago())
                 .build();
         return getPagoById(repository.save(pago).getIdPago());
     }
@@ -86,6 +87,7 @@ public class PagoService {
                 .usuario(usuarioDto)
                 .requiereFactura(pago.getRequiereFactura())
                 .conceptoPago(pago.getConceptoPago())
+                .notasPago(pago.getNotasPago())
                 .build();
     }
 }
