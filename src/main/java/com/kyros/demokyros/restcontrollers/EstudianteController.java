@@ -100,9 +100,13 @@ public class EstudianteController {
     }
 
     // Alta masiva desde un Excel; una fila inválida no aborta el lote, se reporta como error.
+    // idGrupo es opcional: si se indica, todos los alumnos importados quedan asignados a ese grupo.
     @PostMapping(path = "/importar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ImportEstudiantesResultDto importar(@RequestParam("file") MultipartFile file) {
-        return importExportService.importarEstudiantes(file);
+    public ImportEstudiantesResultDto importar(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(required = false) Integer idGrupo
+    ) {
+        return importExportService.importarEstudiantes(file, idGrupo);
     }
 
     @GetMapping("/exportar")
