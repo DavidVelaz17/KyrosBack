@@ -117,9 +117,15 @@ public class EstudianteImportExportService {
 
     // ---- Importar ----
 
-    public ImportEstudiantesResultDto importarEstudiantes(MultipartFile file) {
+    public ImportEstudiantesResultDto importarEstudiantes(MultipartFile file, Integer idGrupo) {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("El archivo Excel es obligatorio");
+        }
+        if (idGrupo != null) {
+            // Se valida una sola vez, antes de procesar filas: si el grupo no existe, todo el
+            // lote es inválido (todas las filas se asignarían al mismo grupo inexistente).
+            grupoRepository.findById(idGrupo)
+                    .orElseThrow(() -> new IllegalArgumentException("El grupo indicado no existe"));
         }
 
         List<ImportEstudianteErrorDto> errores = new ArrayList<>();
@@ -141,7 +147,7 @@ public class EstudianteImportExportService {
                 totalFilas++;
                 int numeroFila = rowIndex + 1;
                 try {
-                    EstudianteForm form = leerFila(row, year, matriculasExistentes, siguienteSecuenciaPorPrefijo);
+                    EstudianteForm form = leerFila(row, year, matriculasExistentes, siguienteSecuenciaPorPrefijo, idGrupo);
                     var violaciones = validator.validate(form);
                     if (!violaciones.isEmpty()) {
                         String mensaje = violaciones.stream()
@@ -168,7 +174,8 @@ public class EstudianteImportExportService {
     }
 
     private EstudianteForm leerFila(
-            Row row, int year, List<String> matriculasExistentes, Map<String, Integer> siguienteSecuenciaPorPrefijo
+            Row row, int year, List<String> matriculasExistentes, Map<String, Integer> siguienteSecuenciaPorPrefijo,
+            Integer idGrupo
     ) {
         String nombre = leerTexto(row, 0);
         String apellidoPaterno = leerTexto(row, 1);
@@ -203,6 +210,7 @@ public class EstudianteImportExportService {
                 .fechaInscripcion(fechaInscripcion)
                 .horario(horario)
                 .ingresoA(ingresoA)
+                .idGrupo(idGrupo)
                 .build();
     }
 
