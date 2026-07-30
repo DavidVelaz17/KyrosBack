@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -16,6 +16,6 @@ import java.time.LocalDateTime;
 public class LogDto {
 
     private Integer idLog;
-    private LocalDateTime timeStamp;
+    private Instant timeStamp;
     private UsuarioDto usuario;
 }

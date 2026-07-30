@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class AuthService {
             throw new InvalidCredentialsException("Usuario o contraseña incorrectos");
         }
         logRepository.save(Log.builder()
-                .timeStamp(LocalDateTime.now())
+                .timeStamp(Instant.now())
                 .idUsuario(usuario.getIdUsuario())
                 .build());
         return JwtResponse.builder()

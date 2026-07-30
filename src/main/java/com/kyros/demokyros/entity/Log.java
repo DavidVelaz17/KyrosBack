@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "log")
@@ -29,7 +29,7 @@ public class Log {
     private Integer idLog;
 
     @Column(name = "time_stamp", nullable = false)
-    private LocalDateTime timeStamp;
+    private Instant timeStamp;
 
     @Column(name = "id_usuario", nullable = false)
     private Integer idUsuario;
