@@ -56,4 +56,6 @@ public class EstudianteForm {
     private IngresoA ingresoA;
 
     private Integer idGrupo;
+
+    private boolean llevaIngles;
 }

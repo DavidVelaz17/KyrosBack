@@ -37,4 +37,5 @@ public class EstudianteDto {
     private IngresoA ingresoA;
     private GrupoDto grupo;
     private EstatusEstudiante estatus;
+    private boolean llevaIngles;
 }

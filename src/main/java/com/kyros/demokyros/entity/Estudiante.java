@@ -91,4 +91,7 @@ public class Estudiante {
     @Convert(converter = EstatusEstudianteConverter.class)
     @Column(name = "estatus", nullable = false, columnDefinition = "smallint")
     private EstatusEstudiante estatus;
+
+    @Column(name = "lleva_ingles", nullable = false)
+    private boolean llevaIngles;
 }
