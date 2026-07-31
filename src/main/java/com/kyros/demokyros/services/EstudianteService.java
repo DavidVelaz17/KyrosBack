@@ -118,6 +118,7 @@ public class EstudianteService {
                 .ingresoA(form.getIngresoA())
                 .idGrupo(form.getIdGrupo())
                 .estatus(EstatusEstudiante.ACTIVO)
+                .llevaIngles(form.isLlevaIngles())
                 .build();
         Estudiante saved = repository.save(estudiante);
         return toDto(saved, resolveGrupo(saved));
@@ -146,6 +147,7 @@ public class EstudianteService {
         estudiante.setHorario(form.getHorario());
         estudiante.setIngresoA(form.getIngresoA());
         estudiante.setIdGrupo(form.getIdGrupo());
+        estudiante.setLlevaIngles(form.isLlevaIngles());
         Estudiante saved = repository.save(estudiante);
         return toDto(saved, resolveGrupo(saved));
     }
@@ -408,6 +410,7 @@ public class EstudianteService {
                 .ingresoA(estudiante.getIngresoA())
                 .grupo(grupoDto)
                 .estatus(estudiante.getEstatus())
+                .llevaIngles(estudiante.isLlevaIngles())
                 .build();
     }
 }

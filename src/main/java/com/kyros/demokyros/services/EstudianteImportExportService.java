@@ -45,12 +45,16 @@ import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataValidation;
+import org.apache.poi.ss.usermodel.DataValidationConstraint;
+import org.apache.poi.ss.usermodel.DataValidationHelper;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,7 +84,7 @@ public class EstudianteImportExportService {
     private static final String[] ENCABEZADOS_ALUMNOS = {
             "Nombre(s)", "Apellido paterno", "Apellido materno", "Edad", "Teléfono",
             "Escuela de procedencia", "Grado escolar", "Nombre del tutor", "Número del tutor",
-            "Dirección", "Fecha de inscripción", "Horario", "Ingresa a", "Notas"
+            "Dirección", "Fecha de inscripción", "Horario", "Ingresa a", "Lleva inglés", "Notas"
     };
 
     private static final Map<IngresoA, String> PREFIJO_MATRICULA = Map.of(
@@ -94,6 +98,10 @@ public class EstudianteImportExportService {
     // La matrícula es NOT NULL + UNIQUE en la base de datos, así que siempre se genera una,
     // incluso si la fila no trae "Ingresa a" (ese campo ya es opcional).
     private static final String PREFIJO_SIN_INGRESO_A = "X";
+
+    // Hasta qué fila (0-indexada, sin contar el encabezado) se aplica el desplegable de las
+    // columnas de opciones fijas; suficiente margen para cualquier carga masiva razonable.
+    private static final int ULTIMA_FILA_VALIDACION = 2000;
 
     private final EstudianteService estudianteService;
     private final EstudianteRepository estudianteRepository;
@@ -190,7 +198,8 @@ public class EstudianteImportExportService {
         LocalDate fechaInscripcion = leerFecha(row, 10);
         Horario horario = parseHorario(leerTexto(row, 11));
         IngresoA ingresoA = parseIngresoA(leerTexto(row, 12));
-        String notas = leerTexto(row, 13);
+        boolean llevaIngles = parseBooleano(leerTexto(row, 13));
+        String notas = leerTexto(row, 14);
 
         String matricula = generarMatricula(ingresoA, year, matriculasExistentes, siguienteSecuenciaPorPrefijo);
 
@@ -210,6 +219,7 @@ public class EstudianteImportExportService {
                 .fechaInscripcion(fechaInscripcion)
                 .horario(horario)
                 .ingresoA(ingresoA)
+                .llevaIngles(llevaIngles)
                 .idGrupo(idGrupo)
                 .build();
     }
@@ -269,6 +279,18 @@ public class EstudianteImportExportService {
             default -> throw new IllegalArgumentException(
                     "Ingresa a no reconocido: '" + texto
                             + "' (usa Universidad, Bachillerato, Secundaria, Asesorías o Curso de verano)");
+        };
+    }
+
+    private boolean parseBooleano(String texto) {
+        if (texto == null) {
+            return false;
+        }
+        return switch (normalizar(texto)) {
+            case "si" -> true;
+            case "no" -> false;
+            default -> throw new IllegalArgumentException(
+                    "Lleva inglés no reconocido: '" + texto + "' (usa Sí o No)");
         };
     }
 
@@ -413,6 +435,7 @@ public class EstudianteImportExportService {
             encabezados.add("Estatus");
         }
         escribirEncabezado(sheet, workbook, encabezados.toArray(new String[0]));
+        aplicarValidacionesColumnasFijas(sheet, encabezados);
 
         int rowIndex = 1;
         for (Estudiante estudiante : estudiantes) {
@@ -434,6 +457,7 @@ public class EstudianteImportExportService {
             setCeldaFecha(row, col++, estudiante.getFechaInscripcion(), estiloFecha);
             setCelda(row, col++, estudiante.getHorario() != null ? capitalizar(estudiante.getHorario().name()) : null);
             setCelda(row, col++, describirIngresoA(estudiante.getIngresoA()));
+            setCelda(row, col++, estudiante.isLlevaIngles() ? "Sí" : "No");
             setCelda(row, col++, estudiante.getNotas());
             if (incluirMatriculaYEstatus) {
                 Grupo grupo = estudiante.getIdGrupo() != null ? gruposPorId.get(estudiante.getIdGrupo()) : null;
@@ -584,6 +608,31 @@ public class EstudianteImportExportService {
         setCelda(row, 1, tipo);
         setCelda(row, 2, nombre);
         setCelda(row, 3, carrera);
+    }
+
+    /** Restringe con un desplegable (data validation de Excel) las columnas cuyo valor solo puede
+     *  ser uno de un catálogo fijo, para que no se pueda teclear texto libre inválido que luego
+     *  falle al importar. Busca la columna por nombre de encabezado en vez de un índice fijo, así
+     *  que sigue funcionando aunque cambie el orden de columnas entre plantilla y exportación. */
+    private void aplicarValidacionesColumnasFijas(Sheet sheet, List<String> encabezados) {
+        aplicarValidacionLista(sheet, encabezados.indexOf("Horario"), "Escolarizado", "Sabatino", "Virtual");
+        aplicarValidacionLista(sheet, encabezados.indexOf("Ingresa a"),
+                "Universidad", "Bachillerato", "Secundaria", "Asesorías", "Curso de verano");
+        aplicarValidacionLista(sheet, encabezados.indexOf("Lleva inglés"), "Sí", "No");
+    }
+
+    private void aplicarValidacionLista(Sheet sheet, int columna, String... opciones) {
+        if (columna < 0) {
+            return;
+        }
+        DataValidationHelper helper = sheet.getDataValidationHelper();
+        DataValidationConstraint restriccion = helper.createExplicitListConstraint(opciones);
+        CellRangeAddressList rango = new CellRangeAddressList(1, ULTIMA_FILA_VALIDACION, columna, columna);
+        DataValidation validacion = helper.createValidation(restriccion, rango);
+        validacion.setSuppressDropDownArrow(true);
+        validacion.setShowErrorBox(true);
+        validacion.createErrorBox("Valor no válido", "Selecciona una de las opciones de la lista.");
+        sheet.addValidationData(validacion);
     }
 
     private String describirIngresoA(IngresoA ingresoA) {
