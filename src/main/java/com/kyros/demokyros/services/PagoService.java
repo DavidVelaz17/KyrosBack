@@ -4,10 +4,15 @@ import com.kyros.demokyros.dto.CargoDto;
 import com.kyros.demokyros.dto.PagoDto;
 import com.kyros.demokyros.dto.UsuarioDto;
 import com.kyros.demokyros.entity.Pago;
+import com.kyros.demokyros.entity.Usuario;
+import com.kyros.demokyros.exception.InvalidCredentialsException;
 import com.kyros.demokyros.exception.ResourceNotFoundException;
 import com.kyros.demokyros.form.PagoForm;
 import com.kyros.demokyros.repository.PagoRepository;
+import com.kyros.demokyros.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +27,8 @@ public class PagoService {
     private final PagoRepository repository;
     private final CargoService cargoService;
     private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<PagoDto> getAllPagos() {
         return toDtoList(repository.findAll());
@@ -51,6 +58,20 @@ public class PagoService {
                 .notasPago(form.getNotasPago())
                 .build();
         return getPagoById(repository.save(pago).getIdPago());
+    }
+
+    // Borrar un pago es una operación sensible (rompe la trazabilidad de cobros): además de estar
+    // restringida a ADMIN en SecurityConfig, se re-valida la contraseña del usuario autenticado
+    // aquí, igual que hace AuthService.login.
+    public void deletePago(Integer id, String password) {
+        Pago pago = findEntity(id);
+        String usuarioActual = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario usuario = usuarioRepository.findByUsuario(usuarioActual)
+                .orElseThrow(() -> new InvalidCredentialsException("Contraseña incorrecta"));
+        if (!passwordEncoder.matches(password, usuario.getPassword())) {
+            throw new InvalidCredentialsException("Contraseña incorrecta");
+        }
+        repository.delete(pago);
     }
 
     private List<PagoDto> toDtoList(List<Pago> pagos) {

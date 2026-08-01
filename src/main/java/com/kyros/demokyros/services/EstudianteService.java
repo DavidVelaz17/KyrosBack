@@ -159,10 +159,14 @@ public class EstudianteService {
     }
 
     /** El resto del alumno es editable vía updateEstudiante; el estatus (Activo/Baja) se
-     *  cambia aparte, típicamente al "dar de baja" en vez de borrar al alumno. */
+     *  cambia aparte, típicamente al "dar de baja" en vez de borrar al alumno. Al dar de baja
+     *  se libera su grupo (el cupo queda disponible); reactivarlo no restaura el grupo anterior. */
     public EstudianteDto updateEstatus(Integer id, EstudianteEstatusForm form) {
         Estudiante estudiante = findEntity(id);
         estudiante.setEstatus(form.getEstatus());
+        if (form.getEstatus() == EstatusEstudiante.BAJA) {
+            estudiante.setIdGrupo(null);
+        }
         Estudiante saved = repository.save(estudiante);
         return toDto(saved, resolveGrupo(saved));
     }
