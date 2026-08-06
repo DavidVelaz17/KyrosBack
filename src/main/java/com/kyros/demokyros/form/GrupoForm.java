@@ -1,5 +1,6 @@
 package com.kyros.demokyros.form;
 
+import com.kyros.demokyros.enums.Horario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,7 @@ public class GrupoForm {
 
     @NotBlank(message = "El nombre del plantel es obligatorio")
     private String nombrePlantel;
+
+    @NotNull(message = "El horario es obligatorio")
+    private Horario horario;
 }
