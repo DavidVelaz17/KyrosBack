@@ -1,6 +1,9 @@
 package com.kyros.demokyros.entity;
 
+import com.kyros.demokyros.convertors.HorarioConverter;
+import com.kyros.demokyros.enums.Horario;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,4 +39,8 @@ public class Grupo {
 
     @Column(name = "nombre_plantel", nullable = false)
     private String nombrePlantel;
+
+    @Convert(converter = HorarioConverter.class)
+    @Column(name = "horario", nullable = false, columnDefinition = "smallint")
+    private Horario horario;
 }

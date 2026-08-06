@@ -44,9 +44,11 @@ public class SecurityConfig {
                         // sección "Usuarios" del front ya es exclusiva de ADMIN: se refuerza aquí también.
                         .requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMIN")
-                        // Borrar un pago es sensible (rompe la trazabilidad de cobros): solo ADMIN,
-                        // y además PagoService revalida la contraseña del usuario autenticado.
+                        // Borrar un pago o un cargo es sensible (rompe la trazabilidad de cobros): solo
+                        // ADMIN, y además PagoService/CargoService revalidan la contraseña del usuario
+                        // autenticado.
                         .requestMatchers(HttpMethod.DELETE, "/api/pagos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/cargos/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

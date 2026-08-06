@@ -4,11 +4,16 @@ import com.kyros.demokyros.dto.CargoDto;
 import com.kyros.demokyros.dto.EstudianteDto;
 import com.kyros.demokyros.dto.UsuarioDto;
 import com.kyros.demokyros.entity.Cargo;
+import com.kyros.demokyros.entity.Usuario;
+import com.kyros.demokyros.exception.InvalidCredentialsException;
 import com.kyros.demokyros.exception.ResourceNotFoundException;
 import com.kyros.demokyros.form.CargoEstatusForm;
 import com.kyros.demokyros.form.CargoForm;
 import com.kyros.demokyros.repository.CargoRepository;
+import com.kyros.demokyros.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +27,8 @@ public class CargoService {
     private final CargoRepository repository;
     private final EstudianteService estudianteService;
     private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<CargoDto> getAllCargos() {
         return toDtoList(repository.findAll());
@@ -59,6 +66,22 @@ public class CargoService {
         Cargo cargo = findEntity(id);
         cargo.setEstatusCargo(form.getEstatusCargo());
         return getCargoById(repository.save(cargo).getIdCargo());
+    }
+
+    // Borrar un cargo es sensible (afecta la trazabilidad de cobros, igual que borrar un pago):
+    // restringido a ADMIN en SecurityConfig, y aquí se revalida la contraseña del usuario
+    // autenticado, igual que PagoService.deletePago. Si el cargo tiene pagos asociados, la FK
+    // fk_pago_cargo (ON DELETE RESTRICT) rechaza el borrado y GlobalExceptionHandler lo traduce
+    // a un 409: hay que borrar esos pagos primero.
+    public void deleteCargo(Integer id, String password) {
+        Cargo cargo = findEntity(id);
+        String usuarioActual = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario usuario = usuarioRepository.findByUsuario(usuarioActual)
+                .orElseThrow(() -> new InvalidCredentialsException("Contraseña incorrecta"));
+        if (!passwordEncoder.matches(password, usuario.getPassword())) {
+            throw new InvalidCredentialsException("Contraseña incorrecta");
+        }
+        repository.delete(cargo);
     }
 
     private List<CargoDto> toDtoList(List<Cargo> cargos) {

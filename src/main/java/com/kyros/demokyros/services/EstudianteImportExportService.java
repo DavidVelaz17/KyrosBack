@@ -64,6 +64,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.text.Normalizer;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,6 +81,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EstudianteImportExportService {
+
+    // Explícito y no la del sistema (TZ del contenedor): el servidor corre en Alemania, y el año
+    // de folio de la matrícula debe reflejar la fecha en México, no la de Berlín.
+    private static final ZoneId ZONA_MEXICO = ZoneId.of("America/Mexico_City");
 
     private static final String[] ENCABEZADOS_ALUMNOS = {
             "Nombre(s)", "Apellido paterno", "Apellido materno", "Edad", "Teléfono",
@@ -139,7 +144,7 @@ public class EstudianteImportExportService {
         List<ImportEstudianteErrorDto> errores = new ArrayList<>();
         int totalFilas = 0;
         int exitosos = 0;
-        int year = LocalDate.now().getYear();
+        int year = LocalDate.now(ZONA_MEXICO).getYear();
         List<String> matriculasExistentes = estudianteRepository.findAll().stream()
                 .map(Estudiante::getMatricula)
                 .toList();

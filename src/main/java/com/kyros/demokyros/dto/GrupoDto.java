@@ -1,5 +1,6 @@
 package com.kyros.demokyros.dto;
 
+import com.kyros.demokyros.enums.Horario;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,4 +20,5 @@ public class GrupoDto {
     private String nombreGrupo;
     private LocalDate fechaInicio;
     private String nombrePlantel;
+    private Horario horario;
 }

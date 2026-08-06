@@ -29,6 +29,7 @@ public class GrupoService {
                 .nombreGrupo(form.getNombreGrupo())
                 .fechaInicio(form.getFechaInicio())
                 .nombrePlantel(form.getNombrePlantel())
+                .horario(form.getHorario())
                 .build();
         return toDto(repository.save(grupo));
     }
@@ -38,6 +39,7 @@ public class GrupoService {
         grupo.setNombreGrupo(form.getNombreGrupo());
         grupo.setFechaInicio(form.getFechaInicio());
         grupo.setNombrePlantel(form.getNombrePlantel());
+        grupo.setHorario(form.getHorario());
         return toDto(repository.save(grupo));
     }
 
@@ -56,6 +58,7 @@ public class GrupoService {
                 .nombreGrupo(grupo.getNombreGrupo())
                 .fechaInicio(grupo.getFechaInicio())
                 .nombrePlantel(grupo.getNombrePlantel())
+                .horario(grupo.getHorario())
                 .build();
     }
 }
