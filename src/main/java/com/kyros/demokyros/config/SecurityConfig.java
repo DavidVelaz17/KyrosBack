@@ -49,6 +49,12 @@ public class SecurityConfig {
                         // autenticado.
                         .requestMatchers(HttpMethod.DELETE, "/api/pagos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/cargos/**").hasRole("ADMIN")
+                        // Egresos (dinero que sale del instituto): los mismos roles que ven Cargos en
+                        // el front, no PROFESOR. Sus tipos los consultan esos mismos roles (para el
+                        // formulario), pero solo ADMIN/COORDINADOR los editan desde Catálogos.
+                        .requestMatchers("/api/egresos/**").hasAnyRole("ADMIN", "COORDINADOR", "SECRETARIO")
+                        .requestMatchers(HttpMethod.GET, "/api/tipos-egreso/**").hasAnyRole("ADMIN", "COORDINADOR", "SECRETARIO")
+                        .requestMatchers("/api/tipos-egreso/**").hasAnyRole("ADMIN", "COORDINADOR")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
