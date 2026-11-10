@@ -4,12 +4,15 @@ import com.kyros.demokyros.dto.CargoDto;
 import com.kyros.demokyros.dto.EstudianteDto;
 import com.kyros.demokyros.dto.UsuarioDto;
 import com.kyros.demokyros.entity.Cargo;
+import com.kyros.demokyros.entity.Pago;
 import com.kyros.demokyros.entity.Usuario;
 import com.kyros.demokyros.exception.InvalidCredentialsException;
 import com.kyros.demokyros.exception.ResourceNotFoundException;
 import com.kyros.demokyros.form.CargoEstatusForm;
+import com.kyros.demokyros.form.CargoUpdateForm;
 import com.kyros.demokyros.form.CargoForm;
 import com.kyros.demokyros.repository.CargoRepository;
+import com.kyros.demokyros.repository.PagoRepository;
 import com.kyros.demokyros.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
 public class CargoService {
 
     private final CargoRepository repository;
+    private final PagoRepository pagoRepository;
     private final EstudianteService estudianteService;
     private final UsuarioService usuarioService;
     private final UsuarioRepository usuarioRepository;
@@ -60,8 +64,23 @@ public class CargoService {
         return getCargoById(repository.save(cargo).getIdCargo());
     }
 
-    // El resto del cargo (monto, concepto, fechas) es inmutable; solo el estatus puede
-    // transicionar (ej. PENDIENTE -> PAGADO) a medida que se registran pagos sobre él.
+    // Tipo de mensualidad y monto total se pueden corregir desde "Registrar pago" antes de pagar.
+    // El monto no puede quedar por debajo de lo ya pagado. El estatus no se toca aquí: lo ajusta
+    // el front con updateEstatus al registrar el pago, como siempre.
+    public CargoDto updateCargo(Integer id, CargoUpdateForm form) {
+        Cargo cargo = findEntity(id);
+        double pagado = pagoRepository.findByIdCargo(id).stream().mapToDouble(Pago::getMontoPagadoPago).sum();
+        if (form.getMontoTotalCargo() < pagado) {
+            throw new IllegalArgumentException(String.format(
+                    "El monto total no puede ser menor a lo ya pagado ($%,.2f).", pagado));
+        }
+        cargo.setTipoMensualidadCargo(form.getTipoMensualidadCargo());
+        cargo.setMontoTotalCargo(form.getMontoTotalCargo());
+        return getCargoById(repository.save(cargo).getIdCargo());
+    }
+
+    // Concepto y fechas son inmutables; el estatus transiciona (ej. PENDIENTE -> PAGADO) a medida
+    // que se registran pagos sobre él.
     public CargoDto updateEstatus(Integer id, CargoEstatusForm form) {
         Cargo cargo = findEntity(id);
         cargo.setEstatusCargo(form.getEstatusCargo());

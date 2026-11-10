@@ -2,6 +2,7 @@ package com.kyros.demokyros.restcontrollers;
 
 import com.kyros.demokyros.dto.CargoDto;
 import com.kyros.demokyros.form.CargoEstatusForm;
+import com.kyros.demokyros.form.CargoUpdateForm;
 import com.kyros.demokyros.form.CargoForm;
 import com.kyros.demokyros.requests.CargoDeleteRequest;
 import com.kyros.demokyros.services.CargoService;
@@ -49,6 +50,11 @@ public class CargoController {
     @ResponseStatus(HttpStatus.CREATED)
     public CargoDto create(@Valid @RequestBody CargoForm form) {
         return service.createCargo(form);
+    }
+
+    @PutMapping("/{id}")
+    public CargoDto update(@PathVariable Integer id, @Valid @RequestBody CargoUpdateForm form) {
+        return service.updateCargo(id, form);
     }
 
     @PutMapping("/{id}/estatus")

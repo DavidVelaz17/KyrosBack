@@ -21,6 +21,9 @@ public class EgresoForm {
     @NotNull(message = "El tipo de egreso es obligatorio")
     private Integer idTipoEgreso;
 
+    @NotNull(message = "El plantel es obligatorio")
+    private Integer idPlantel;
+
     @NotNull(message = "El importe es obligatorio")
     @Positive(message = "El importe debe ser un valor positivo")
     private Double importeEgreso;

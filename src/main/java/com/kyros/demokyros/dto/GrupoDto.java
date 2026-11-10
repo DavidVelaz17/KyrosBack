@@ -19,6 +19,7 @@ public class GrupoDto {
     private Integer idGrupo;
     private String nombreGrupo;
     private LocalDate fechaInicio;
+    private Integer idPlantel;
     private String nombrePlantel;
     private Horario horario;
 }
