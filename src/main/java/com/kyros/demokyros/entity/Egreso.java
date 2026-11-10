@@ -1,6 +1,9 @@
 package com.kyros.demokyros.entity;
 
+import com.kyros.demokyros.convertors.EstatusEgresoConverter;
+import com.kyros.demokyros.enums.EstatusEgreso;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -46,4 +49,19 @@ public class Egreso {
     // cuerpo de la petición.
     @Column(name = "id_usuario", nullable = false)
     private Integer idUsuario;
+
+    // Plantel al que corresponde el gasto (corte de caja por plantel). Null solo en egresos
+    // anteriores a V23; al crear o corregir es obligatorio.
+    @Column(name = "id_plantel")
+    private Integer idPlantel;
+
+    // Nunca se borra el registro: eliminar/corregir/restaurar solo cambian este estatus (y los
+    // valores, al corregir) y dejan su rastro en EgresoMovimiento.
+    @Convert(converter = EstatusEgresoConverter.class)
+    @Column(name = "estatus_egreso", nullable = false, columnDefinition = "smallint")
+    private EstatusEgreso estatusEgreso;
+
+    // Momento en que se capturó en el sistema; null en los egresos anteriores a V20.
+    @Column(name = "fecha_registro_egreso")
+    private LocalDateTime fechaRegistroEgreso;
 }

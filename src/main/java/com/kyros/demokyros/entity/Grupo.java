@@ -37,8 +37,9 @@ public class Grupo {
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
 
-    @Column(name = "nombre_plantel", nullable = false)
-    private String nombrePlantel;
+    // Catálogo de planteles (ver PlantelService); el nombre se resuelve al armar el DTO.
+    @Column(name = "id_plantel", nullable = false)
+    private Integer idPlantel;
 
     @Convert(converter = HorarioConverter.class)
     @Column(name = "horario", nullable = false, columnDefinition = "smallint")

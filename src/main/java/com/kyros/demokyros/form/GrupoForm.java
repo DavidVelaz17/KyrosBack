@@ -24,8 +24,8 @@ public class GrupoForm {
     @NotNull(message = "La fecha de inicio es obligatoria")
     private LocalDate fechaInicio;
 
-    @NotBlank(message = "El nombre del plantel es obligatorio")
-    private String nombrePlantel;
+    @NotNull(message = "El plantel es obligatorio")
+    private Integer idPlantel;
 
     @NotNull(message = "El horario es obligatorio")
     private Horario horario;
